@@ -58,6 +58,3 @@ for i, path in enumerate(paths, 1):
     path_str = " -> ".join(f"({x},{y})" for x, y in path)
     print(path_str)
     print_maze(maze, path)
-
-//C++
-
