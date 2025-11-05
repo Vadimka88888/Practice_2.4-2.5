@@ -1,0 +1,63 @@
+//Python
+
+def find_all_paths(maze):
+    n, m = len(maze), len(maze[0])
+    all_paths = []
+    
+    def backtrack(x, y, path, visited):
+        if x == n - 1 and y == m - 1:
+            all_paths.append(path[:])
+            return
+        
+        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        
+        for dx, dy in directions:
+            nx, ny = x + dx, y + dy
+            if (0 <= nx < n and 0 <= ny < m and 
+                maze[nx][ny] == 0 and not visited[nx][ny]):
+                visited[nx][ny] = True
+                path.append((nx, ny))
+                backtrack(nx, ny, path, visited)
+                path.pop()
+                visited[nx][ny] = False
+    
+    visited = [[False] * m for _ in range(n)]
+    visited[0][0] = True
+    backtrack(0, 0, [(0, 0)], visited)
+    return all_paths
+
+def print_maze(maze, path=None):
+    for i in range(len(maze)):
+        for j in range(len(maze[0])):
+            if path and (i, j) in path:
+                print("X", end=" ")
+            elif maze[i][j] == 1:
+                print("#", end=" ")
+            else:
+                print(".", end=" ")
+        print()
+
+maze = [
+    [0, 1, 0, 0, 0],
+    [0, 0, 0, 1, 0],
+    [1, 0, 1, 0, 0],
+    [0, 0, 0, 0, 1],
+    [0, 1, 0, 0, 0]
+]
+
+print("Лабиринт 5x5:")
+print_maze(maze)
+print("\nПоиск всех путей...")
+
+paths = find_all_paths(maze)
+
+print(f"\nНайдено путей: {len(paths)}")
+
+for i, path in enumerate(paths, 1):
+    print(f"\nПуть {i} (длина: {len(path)}):")
+    path_str = " -> ".join(f"({x},{y})" for x, y in path)
+    print(path_str)
+    print_maze(maze, path)
+
+//C++
+
